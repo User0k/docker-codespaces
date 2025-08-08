@@ -1,0 +1,21 @@
+{
+  "name": "Express Prisma Dev Container",
+  "image": "mcr.microsoft.com/vscode/devcontainers/javascript-node:22",
+  "features": {
+    "docker-in-docker": "latest"
+  },
+  "forwardPorts": [3000, 5432],
+  "postCreateCommand": "npm install && npx prisma generate",
+  "remoteUser": "vscode",
+  "extensions": [
+    "ms-azuretools.vscode-docker",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint"
+  ],
+  "mounts": [
+    "source=${localWorkspaceFolder}/node_modules,target=/workspace/node_modules,type=volume"
+  ],
+  "containerEnv": {
+    "DATABASE_URL": "postgresql://postgres:postgres@db:5432/postgres?schema=public"
+  }
+}

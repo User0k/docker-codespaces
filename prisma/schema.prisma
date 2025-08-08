@@ -1,0 +1,48 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String    @id @default(uuid())
+  createdAt    DateTime  @default(now())
+  name         String
+  nickName     String?
+  companyName  String
+  companyIcon  String?
+  jobTitle     String
+  pronouns     String?
+  city         String
+  country      String
+  images       Image[]
+  avatar       Avatar?   
+  @@map("users")
+}
+
+model Image {
+  id           String   @id @default(uuid())
+  thumbNail    String
+  fullImage    String
+  originalName String
+  size         Int
+  width        Int
+  height       Int
+  selected     Boolean
+  user         User     @relation(fields: [userId], references: [id])
+  userId       String
+  @@map("images")
+}
+model Avatar {
+  id         String  @id @default(uuid())
+  imageUrl   String
+  x          Float
+  y          Float
+  diameter   Float
+  user       User    @relation(fields: [userId], references: [id])
+  userId     String  @unique
+  @@map("avatars")
+}
